@@ -1,7 +1,6 @@
 FROM python:alpine3.8
 
-LABEL maintainer="Sebastian Zajac <sebastian.zajac@sgh.waw.pl>"
-LABEL description="Simpy Flask App"
+LABEL description="Flask App"
 
 COPY . /app/
 
