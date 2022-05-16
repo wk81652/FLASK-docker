@@ -1,12 +1,31 @@
-FROM python:alpine3.8
+# This file defines the Docker container that will contain the Flask app.
 
-LABEL description="Flask App"
+# From the source image
+FROM python:3.6-slim
 
-COPY . /app/
+# Identify maintainer
+LABEL maintainer = "calbon@wikimedia.org"
 
-WORKDIR /app
+# Set the default working directory
+WORKDIR /app/
 
-RUN pip install -r requirements.txt
+# Copy requirements.txt outside the container
+# to /app/ inside the container
+COPY requirements.txt /app/
 
-ENTRYPOINT ["python3"]
-CMD ["app.py"]
+# Install required packages
+RUN pip install -r ./requirements.txt
+
+# Copy app.py and__init__.py outside the container
+# to /app/ inside the container
+COPY app.py __init__.py /app/
+
+# Copy model.pkl outside the container
+# to /app/ inside the container
+COPY model.pkl /app/
+
+# Expose the container's port 3333
+EXPOSE 3333
+
+# When the container starts, run this
+ENTRYPOINT python ./app.py
