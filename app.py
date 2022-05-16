@@ -50,7 +50,6 @@ def get_prediction():
     # wczytywanie modelu 
     with open('model.pkl',"rb") as picklefile:
         model = pickle.load(picklefile)
-    print(model)
     
     # predykcja
     predicted_class = int(model.predict(features))
@@ -59,5 +58,5 @@ def get_prediction():
     return jsonify(features=features, predicted_class=predicted_class)
 
 if __name__ == '__main__':
-    app.run(debug = False)
+    app.run(port=3333,host='0.0.0.0')
     
