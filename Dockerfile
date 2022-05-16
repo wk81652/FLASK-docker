@@ -29,7 +29,3 @@ EXPOSE 3333
 
 # When the container starts, run this
 ENTRYPOINT python ./app.py
-© 2022 GitHub, Inc.
-Terms
-Privacy
-Security
