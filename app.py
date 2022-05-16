@@ -1,8 +1,4 @@
-%%file app.py
-
 import pickle
-from math import log10
-
 from flask import Flask
 from flask import request
 from flask import jsonify
@@ -63,6 +59,5 @@ def get_prediction():
     return jsonify(features=features, predicted_class=predicted_class)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug = False)
     
-python app.py
