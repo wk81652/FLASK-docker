@@ -1,38 +1,48 @@
+
 import pickle
+from math import log10
+
 from flask import Flask
 from flask import request
 from flask import jsonify
 import numpy as np
 
-class Perceptron():
-    
-    def __init__(self,eta=0.01, n_iter=10):
+class Perceptron:
+    def __init__(self, eta=0.01, n_iter=10):
         self.eta = eta
         self.n_iter = n_iter
     
     def fit(self, X, y):
-        self.w_ = np.zeros(1+X.shape[1])
+        self.w_ = np.zeros(1 + X.shape[1])
         self.errors_ = []
-        
         for _ in range(self.n_iter):
             errors = 0
             for xi, target in zip(X,y):
-                update = self.eta*(target-self.predict(xi))
-                self.w_[1:] += update*xi
+                update=self.eta*(target-self.predict(xi))
+                update_xi = update[0,0]*xi
+                update_xi = np.array(update_xi).flatten()
+                self.w_[1:] += update_xi
                 self.w_[0] += update
                 errors += int(update != 0.0)
             self.errors_.append(errors)
         return self
     
+    
     def net_input(self, X):
-        return np.dot(X, self.w_[1:])+self.w_[0]
+        return np.dot(X, self.w_[1:]) + self.w_[0]
     
     def predict(self, X):
-        return np.where(self.net_input(X)>=0.0,1,-1)
+        return np.where(self.net_input(X) >= 0, 1, -1)
+    
+    
 
-# flask
+# Create a flask
 app = Flask(__name__)
+@app.route("/")
+def home():
+    return "hello world"
 
+# Create an API end point
 @app.route('/api/v1.0/predict', methods=['GET'])
 def get_prediction():
 
@@ -46,17 +56,15 @@ def get_prediction():
                 petal_length]
     
     print(features)
-    
-    # wczytywanie modelu 
+    # Load pickled model file
     with open('model.pkl',"rb") as picklefile:
         model = pickle.load(picklefile)
-    
-    # predykcja
+    print(model)
+    # Predict the class using the model
     predicted_class = int(model.predict(features))
     
-    # json 
+    # Return a json object containing the features and prediction
     return jsonify(features=features, predicted_class=predicted_class)
 
 if __name__ == '__main__':
-    app.run(port=3333,host='0.0.0.0')
-    
+    app.run()
