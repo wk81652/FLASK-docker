@@ -36,13 +36,13 @@ class Perceptron:
     
     
 
-# Create a flask
+# tworzenie Flaska
 app = Flask(__name__)
 @app.route("/")
 def home():
     return "hello world"
 
-# Create an API end point
+# api
 @app.route('/api/v1.0/predict', methods=['GET'])
 def get_prediction():
 
@@ -56,14 +56,15 @@ def get_prediction():
                 petal_length]
     
     print(features)
-    # Load pickled model file
+    # ładowanie ogóra 
     with open('model.pkl',"rb") as picklefile:
         model = pickle.load(picklefile)
     print(model)
-    # Predict the class using the model
+    
+    #predykcje
     predicted_class = int(model.predict(features))
     
-    # Return a json object containing the features and prediction
+    # json
     return jsonify(features=features, predicted_class=predicted_class)
 
 if __name__ == '__main__':
