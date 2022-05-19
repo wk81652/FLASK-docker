@@ -62,8 +62,13 @@ def get_prediction():
 
     predicted_class = int(model.predict(features))
     
+    if predicted_class == 1:
+        name= "versicolor"
+    else:
+        name="setosa"
+    
 
-    return jsonify(features=features, predicted_class=predicted_class)
+    return jsonify(features=features, predicted_class=name)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0")
