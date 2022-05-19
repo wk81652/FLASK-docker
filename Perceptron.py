@@ -4,7 +4,7 @@ from sklearn.datasets import load_iris
 iris=load_iris()
 iris['data']
 
-
+list(iris.target_names)
 
 df = pd.DataFrame(data = np.c_[iris['data'], iris['target']], 
                   columns=iris['feature_names']+['target'])
