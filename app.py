@@ -68,7 +68,7 @@ def get_prediction():
         name="setosa"
     
 
-    return jsonify(features=features, predicted_class=name)
+    return jsonify(features=features, predicted_class=predicted_class, name=name)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0")
